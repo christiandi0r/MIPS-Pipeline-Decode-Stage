@@ -1,0 +1,94 @@
+`timescale 1ns / 1ps
+
+module decode_TB;
+
+    reg clk;
+    reg rst;
+    reg wb_reg_write;
+    reg [4:0] wb_write_reg_location;
+    reg [31:0] mem_wb_write_data;
+    reg [31:0] if_id_instr;
+    reg [31:0] if_id_npc;
+
+    wire [1:0] id_ex_wb;
+    wire [2:0] id_ex_mem;
+    wire [3:0] id_ex_execute;
+    wire [31:0] id_ex_npc;
+    wire [31:0] id_ex_readdat1;
+    wire [31:0] id_ex_readdat2;
+    wire [31:0] id_ex_sign_ext;
+    wire [4:0] id_ex_instr_bits_20_16;
+    wire [4:0] id_ex_instr_bits_15_11;
+
+    decode uut (
+        .clk(clk),
+        .rst(rst),
+        .wb_reg_write(wb_reg_write),
+        .wb_write_reg_location(wb_write_reg_location),
+        .mem_wb_write_data(mem_wb_write_data),
+        .if_id_instr(if_id_instr),
+        .if_id_npc(if_id_npc),
+        .id_ex_wb(id_ex_wb),
+        .id_ex_mem(id_ex_mem),
+        .id_ex_execute(id_ex_execute),
+        .id_ex_npc(id_ex_npc),
+        .id_ex_readdat1(id_ex_readdat1),
+        .id_ex_readdat2(id_ex_readdat2),
+        .id_ex_sign_ext(id_ex_sign_ext),
+        .id_ex_instr_bits_20_16(id_ex_instr_bits_20_16),
+        .id_ex_instr_bits_15_11(id_ex_instr_bits_15_11)
+    );
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        rst = 1;
+        wb_reg_write = 0;
+        wb_write_reg_location = 5'd0;
+        mem_wb_write_data = 32'd0;
+        if_id_instr = 32'd0;
+        if_id_npc = 32'd0;
+
+        #12;
+        rst = 0;
+
+        wb_reg_write = 1;
+
+        wb_write_reg_location = 5'd8;
+        mem_wb_write_data = 32'd20;
+        #10;
+
+        wb_write_reg_location = 5'd9;
+        mem_wb_write_data = 32'd20;
+        #10;
+
+        wb_write_reg_location = 5'd10;
+        mem_wb_write_data = 32'd7;
+        #10;
+
+        wb_reg_write = 0;
+
+        if_id_instr = 32'b000000_01000_01010_01011_00000_100000;
+        if_id_npc   = 32'h00000004;
+        #10;
+
+        if_id_instr = 32'b100011_01000_01100_0000000000000100;
+        if_id_npc   = 32'h00000008;
+        #10;
+
+        if_id_instr = 32'b101011_01000_01010_0000000000001000;
+        if_id_npc   = 32'h0000000C;
+        #10;
+
+        if_id_instr = 32'b000100_01000_01001_1111111111111110;
+        if_id_npc   = 32'h00000010;
+        #10;
+
+        #20;
+        $finish;
+    end
+
+endmodule
