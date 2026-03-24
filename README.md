@@ -17,4 +17,5 @@ Implementation of the ID stage of a MIPS 5-stage pipeline in Verilog.
 4. Add output signals to waveform window
 
 ## ID Stage Timing Diagram
-![Decode Stage Waveform](decode_waveform.png)
+<img width="1548" height="706" alt="decode_waveform" src="https://github.com/user-attachments/assets/472a99d1-c133-4d87-b52a-b6d34f5a2d64" />
+
