@@ -14,7 +14,6 @@ Implementation of the ID stage of a MIPS 5-stage pipeline in Verilog.
 1. Open project in Vivado
 2. Set `tb_decode.v` as simulation top
 3. Run Behavioral Simulation
-4. Add output signals to waveform window
 
 ## ID Stage Timing Diagram
 <img width="1548" height="706" alt="decode_waveform" src="https://github.com/user-attachments/assets/472a99d1-c133-4d87-b52a-b6d34f5a2d64" />
